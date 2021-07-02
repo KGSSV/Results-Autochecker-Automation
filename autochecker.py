@@ -93,13 +93,13 @@ while True:
             FileH.close()
             web.refresh()
             time.sleep(5)
-            regno = 'RA1811003010386'
+            regno = 'xxxxxxxxxxxxxxxx'
 
             last = web.find_element_by_xpath('//*[@id="txtRegisterno"]')
             last.send_keys(regno)
-            web.find_element(By.ID, 'txtFromDate').send_keys('28')
-            web.find_element(By.ID, 'selFromMonth').send_keys('April')
-            web.find_element(By.ID, 'txtFromYear').send_keys('2000')
+            web.find_element(By.ID, 'txtFromDate').send_keys('xx')
+            web.find_element(By.ID, 'selFromMonth').send_keys('xxxxxx')
+            web.find_element(By.ID, 'txtFromYear').send_keys('xxxxxx')
 
             # taken screen shop and is placed in desktop directory
             tookss = web.find_element_by_xpath(
@@ -193,16 +193,16 @@ while True:
                             smtp.ehlo()
                             smtp.starttls()
                             smtp.ehlo()
-                            smtp.login('kgssvak2@gmail.com',
-                                       'erlofuuuyekbgpbp')
+                            smtp.login('xxxxxxxxxxxxx',
+                                       'xxxxxxxxxxxxxxxx')
 
                             # =======================================
                             subject = 'Marks are released'
                             body = 'please check the desktop for full screen shot'
 
                             msg = f'Subject : {subject} \n\n {body}'
-                            smtp.sendmail('kgssvak2@gmail.com',
-                                          'kgssvak@gmail.com', msg)
+                            smtp.sendmail('xxxxxxxxxxxxxx',
+                                          'xxxxxxxxxxxxxxxx', msg)
 
                         web.close()
                         sys.exit()
