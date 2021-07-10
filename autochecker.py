@@ -126,10 +126,11 @@ while True:
             #     result = web.find_element_by_xpath(
             #         '//*[@id="divResult"]/table/tbody/tr/td/font/b').text
 
-            page_source = web.page_source
-            if 'ROUTING' in page_source:
-                result = 'PASS'
-            else:
+            #page_source = web.page_source
+            try:
+                result = web.find_element_by_xpath(
+                    '//*[@id="table1"]/tbody/tr[1]/td[5]/b').text
+            except:
                 result = web.find_element_by_xpath(
                     '//*[@id="divResult"]/table/tbody/tr/td/font/b').text
 
@@ -204,5 +205,5 @@ while True:
                             smtp.sendmail('xxxxxxxxxxxxxx',
                                           'xxxxxxxxxxxxxxxx', msg)
 
-                        web.close()
-                        sys.exit()
+                            web.close()
+                            sys.exit()
