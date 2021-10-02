@@ -12,7 +12,8 @@ import sys
 # to get the options
 choose = webdriver.ChromeOptions()
 choose.headless = True
-web = webdriver.Chrome(options=choose)
+web = webdriver.Chrome(
+    r'C:\Results Autochecker Automation\chromedriver.exe', options=choose)
 
 # =============================================
 # get the api call
@@ -93,13 +94,13 @@ while True:
             FileH.close()
             web.refresh()
             time.sleep(5)
-            regno = 'xxxxxxxxxxxxxxxx'
+            regno = 'RA1811003010386'
 
             last = web.find_element_by_xpath('//*[@id="txtRegisterno"]')
             last.send_keys(regno)
-            web.find_element(By.ID, 'txtFromDate').send_keys('xx')
-            web.find_element(By.ID, 'selFromMonth').send_keys('xxxxxx')
-            web.find_element(By.ID, 'txtFromYear').send_keys('xxxxxx')
+            web.find_element(By.ID, 'txtFromDate').send_keys('28')
+            web.find_element(By.ID, 'selFromMonth').send_keys('April')
+            web.find_element(By.ID, 'txtFromYear').send_keys('2000')
 
             # taken screen shop and is placed in desktop directory
             tookss = web.find_element_by_xpath(
@@ -125,7 +126,7 @@ while True:
             # except:
             #     result = web.find_element_by_xpath(
             #         '//*[@id="divResult"]/table/tbody/tr/td/font/b').text
-
+            time.sleep(1)
             #page_source = web.page_source
             try:
                 result = web.find_element_by_xpath(
@@ -162,7 +163,7 @@ while True:
                         FileH = open(
                             r'C:\Users\akura\OneDrive\Desktop\logsautocheck.txt', 'a')
                         FileH.write(
-                            '\n Result Not published --> next try after {} seconds'.format(time_to_wait))
+                            '\n Result Not published --> next try after {} seconds'.format(1800))
                         FileH.close()
                         FileH = open(
                             r'C:\Users\akura\OneDrive\Desktop\logsautocheck.txt', 'a')
@@ -194,17 +195,16 @@ while True:
                             smtp.ehlo()
                             smtp.starttls()
                             smtp.ehlo()
-                            smtp.login('xxxxxxxxxxxxx',
-                                       'xxxxxxxxxxxxxxxx')
+                            smtp.login('kgssvak2@gmail.com',
+                                       'erlofuuuyekbgpbp')
 
                             # =======================================
                             subject = 'Marks are released'
                             body = 'please check the desktop for full screen shot'
 
                             msg = f'Subject : {subject} \n\n {body}'
-                            smtp.sendmail('xxxxxxxxxxxxxx',
-                                          'xxxxxxxxxxxxxxxx', msg)
+                            smtp.sendmail('kgssvak2@gmail.com',
+                                          'kgssvak@gmail.com', msg)
 
                             web.close()
                             sys.exit()
-                            ## Completed ##
