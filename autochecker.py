@@ -3,6 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chromium import options
 from selenium.webdriver.common.by import By
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders, message
 import requests
 from datetime import datetime
 import time
@@ -191,6 +195,23 @@ while True:
 
                         # mail sending
 
+                        message = MIMEMultipart()
+                        mail_content = '''Marks Are Out !!!!! 
+                                This is an Auto Generated Response from Script By Akhil  
+                                Refer Attachment To See Grades'''
+                        message.attach(MIMEText(mail_content, 'plain')
+                                       )  # attach text content on to  message body
+
+                        attach_file_name = 'SemesterMarks.png'
+                        attach_file = open(
+                            r'C:\Users\akura\OneDrive\Desktop\SEMISTERMARKS.png', 'rb')
+                        payload = MIMEBase('application', 'octate-stream')
+                        payload.set_payload((attach_file).read())
+                        encoders.encode_base64(payload)
+                        payload.add_header(
+                            'Content-Disposition', 'attachment', filename=attach_file_name)
+                        message.attach(payload)
+
                         with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
                             smtp.ehlo()
                             smtp.starttls()
@@ -199,12 +220,11 @@ while True:
                                        'erlofuuuyekbgpbp')
 
                             # =======================================
-                            subject = 'Marks are released'
-                            body = 'please check the desktop for full screen shot'
 
-                            msg = f'Subject : {subject} \n\n {body}'
+                            text_to_send = message.as_string()
                             smtp.sendmail('kgssvak2@gmail.com',
-                                          'kgssvak@gmail.com', msg)
+                                          'kgssvak@gmail.com', text_to_send)
+                            smtp.quit()
 
                             web.close()
                             sys.exit()
