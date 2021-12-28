@@ -3,21 +3,21 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chromium import options
 from selenium.webdriver.common.by import By
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders, message
 import requests
 from datetime import datetime
 import time
 import smtplib
 import sys
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders, message
 #============================================$#
 # to get the options
 choose = webdriver.ChromeOptions()
 choose.headless = True
 web = webdriver.Chrome(
-    r'C:\Results Autochecker Automation\chromedriver.exe', options=choose)
+    r'C:\Users\akura\OneDrive\Desktop\chromedriver.exe', options=choose)
 
 # =============================================
 # get the api call
@@ -114,6 +114,11 @@ while True:
             length_of_captcha = len(unique_code)
             if(length_of_captcha == 0):
                 print('waiting 10 min')
+                i = i+1
+                FileH = open(
+                    r'C:\Users\akura\OneDrive\Desktop\logsautocheck.txt', 'a')
+                FileH.write('\n Reason : Incorrect Response Recieved')
+                FileH.close()
 
                 time.sleep(600)
                 break
@@ -167,7 +172,7 @@ while True:
                         FileH = open(
                             r'C:\Users\akura\OneDrive\Desktop\logsautocheck.txt', 'a')
                         FileH.write(
-                            '\n Result Not published --> next try after {} seconds'.format(1800))
+                            '\n Result Not published --> next try after {} seconds'.format(time_to_wait))
                         FileH.close()
                         FileH = open(
                             r'C:\Users\akura\OneDrive\Desktop\logsautocheck.txt', 'a')
@@ -205,12 +210,27 @@ while True:
                         attach_file_name = 'SemesterMarks.png'
                         attach_file = open(
                             r'C:\Users\akura\OneDrive\Desktop\SEMISTERMARKS.png', 'rb')
+
+                        attach_file_name1 = 'Symtem_logs.txt'
+                        attach_file1 = open(
+                            r'C:\Users\akura\OneDrive\Desktop\logsautocheck.txt', 'rb')
+
                         payload = MIMEBase('application', 'octate-stream')
+                        payload1 = MIMEBase('application', 'octate-stream')
+
                         payload.set_payload((attach_file).read())
+                        payload1.set_payload((attach_file1).read())
+
                         encoders.encode_base64(payload)
+                        encoders.encode_base64(payload1)
+
                         payload.add_header(
                             'Content-Disposition', 'attachment', filename=attach_file_name)
+                        payload1.add_header(
+                            'Content-Disposition', 'attachment', filename=attach_file_name1)
+
                         message.attach(payload)
+                        message.attach(payload1)
 
                         with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
                             smtp.ehlo()
